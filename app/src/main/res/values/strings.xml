@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">LoftMoney</string>
+    <string name="appName">LoftMoney</string>
+    <string name="purchaseNameHint">Название</string>
+    <string name="purchasePriceHint">Стоимость</string>
+    <string name="addPurchaseButtonCaption">Добавить</string>
 </resources>
