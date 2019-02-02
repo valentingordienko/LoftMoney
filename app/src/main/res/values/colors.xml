@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#3574fa</color>
+    <color name="colorPrimaryDark">#244EB3</color>
+    <color name="colorAccent">#3574fa</color>
+    <color name="addPurchaseButtonEnabled">#7ed321</color>
+    <color name="addPurchaseButtonDisabled">#eaeaea</color>
 </resources>
