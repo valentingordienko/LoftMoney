@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="PurchaseInputHorizontalMargin">32dp</dimen>
+    <dimen name="PurchaseInputTextSize">24sp</dimen>
+    <dimen name="PurchaseNameInputTopMargin">100dp</dimen>
+    <dimen name="PurchasePriceInputTopMargin">16dp</dimen>
+
+    <dimen name="addPurchaseButtonMarginTop">48dp</dimen>
+    <dimen name="addPurchaseButtonTextSize">18sp</dimen>
+    <dimen name="addPurchaseButtonDrawablePadding">8dp</dimen>
+</resources>
