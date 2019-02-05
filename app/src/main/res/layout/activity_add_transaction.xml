@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AddPurchaseActivity">
+    tools:context=".AddTransactionActivity">
 
     <EditText
         android:id="@+id/purchase_name_input"
-        style="@style/PurchaseInputs"
-        android:layout_marginTop="@dimen/PurchaseNameInputTopMargin"
-        android:hint="@string/purchaseNameHint"
+        style="@style/TransactionInputs"
+        android:layout_marginTop="@dimen/TransactionNameInputTopMargin"
+        android:hint="@string/transactionNameHint"
         android:inputType="text"/>
 
     <EditText
         android:id="@+id/purchase_price_input"
-        style="@style/PurchaseInputs"
-        android:layout_marginTop="@dimen/PurchasePriceInputTopMargin"
-        android:hint="@string/purchasePriceHint"
+        style="@style/TransactionInputs"
+        android:layout_marginTop="@dimen/TransactionPriceInputTopMargin"
+        android:hint="@string/transactionPriceHint"
         android:inputType="number"/>
 
     <Button
@@ -25,13 +25,13 @@
         android:enabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/addPurchaseButtonMarginTop"
+        android:layout_marginTop="@dimen/addTransactionButtonMarginTop"
         android:background="@null"
-        android:textSize="@dimen/addPurchaseButtonTextSize"
-        android:textColor="@color/add_purchase_button_color"
+        android:textSize="@dimen/addTransactionButtonTextSize"
+        android:textColor="@color/add_transaction_button_color"
         android:layout_gravity="center_horizontal"
-        android:text="@string/addPurchaseButtonCaption"
+        android:text="@string/addTransactionButtonCaption"
         android:drawableStart="@drawable/ic_check"
-        android:drawablePadding="@dimen/addPurchaseButtonDrawablePadding"/>
+        android:drawablePadding="@dimen/addTransactionButtonDrawablePadding"/>
 
 </LinearLayout>

@@ -11,16 +11,15 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".AddPurchaseActivity">
+        <activity android:name=".TransactionsListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".AddTransactionActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

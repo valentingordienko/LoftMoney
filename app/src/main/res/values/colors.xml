@@ -3,6 +3,6 @@
     <color name="colorPrimary">#3574fa</color>
     <color name="colorPrimaryDark">#244EB3</color>
     <color name="colorAccent">#3574fa</color>
-    <color name="addPurchaseButtonEnabled">#7ed321</color>
-    <color name="addPurchaseButtonDisabled">#eaeaea</color>
+    <color name="addTransactionButtonEnabled">#7ed321</color>
+    <color name="addTransactionButtonDisabled">#eaeaea</color>
 </resources>

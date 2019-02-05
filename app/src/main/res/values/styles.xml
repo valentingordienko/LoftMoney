@@ -8,12 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="PurchaseInputs">
+    <style name="TransactionInputs">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/PurchaseInputHorizontalMargin</item>
-        <item name="android:layout_marginEnd">@dimen/PurchaseInputHorizontalMargin</item>
-        <item name="android:textSize">@dimen/PurchaseInputTextSize</item>
+        <item name="android:layout_marginStart">@dimen/TransactionInputHorizontalMargin</item>
+        <item name="android:layout_marginEnd">@dimen/TransactionInputHorizontalMargin</item>
+        <item name="android:textSize">@dimen/TransactionInputTextSize</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 

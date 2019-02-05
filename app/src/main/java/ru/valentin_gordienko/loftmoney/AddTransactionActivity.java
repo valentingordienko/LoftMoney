@@ -8,7 +8,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class AddPurchaseActivity extends AppCompatActivity {
+public class AddTransactionActivity extends AppCompatActivity {
 
     private EditText PurchaseNameInput;
     private EditText PurchasePriceInput;
@@ -17,7 +17,7 @@ public class AddPurchaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_purchase);
+        setContentView(R.layout.activity_add_transaction);
 
         this.findChildViews();
         this.initEventListeners();
