@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:paddingTop="28dp"
+    android:paddingBottom="28dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp">
+
+    <TextView
+        style="@style/TransactionListItemTextEdit"
+        android:id="@+id/transaction_name"
+        android:textColor="@color/mediumGray"
+        android:layout_weight="1"
+        tools:text="Молоко"/>
+
+    <TextView
+        style="@style/TransactionListItemTextEdit"
+        android:id="@+id/transaction_price"
+        android:textColor="@color/darkSkyBlue"
+        android:layout_weight="0"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        tools:text="70р"/>
+
+</LinearLayout>

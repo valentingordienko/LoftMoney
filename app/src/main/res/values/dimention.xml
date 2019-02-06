@@ -8,4 +8,6 @@
     <dimen name="addTransactionButtonMarginTop">48dp</dimen>
     <dimen name="addTransactionButtonTextSize">18sp</dimen>
     <dimen name="addTransactionButtonDrawablePadding">8dp</dimen>
+
+    <dimen name="TransactionListItemTextSize">20sp</dimen>
 </resources>
