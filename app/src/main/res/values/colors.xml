@@ -3,6 +3,11 @@
     <color name="colorPrimary">#3574fa</color>
     <color name="colorPrimaryDark">#244EB3</color>
     <color name="colorAccent">#3574fa</color>
-    <color name="addPurchaseButtonEnabled">#7ed321</color>
-    <color name="addPurchaseButtonDisabled">#eaeaea</color>
+    <color name="addTransactionButtonEnabled">#7ed321</color>
+    <color name="addTransactionButtonDisabled">#eaeaea</color>
+    <color name="transactionListItemDivider">#efefef</color>
+
+    <color name="mediumGray">#666664</color>
+    <color name="darkSkyBlue">#4a90e2</color>
+    <color name="white">#ffffff</color>
 </resources>

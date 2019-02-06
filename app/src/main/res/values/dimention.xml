@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="TransactionInputHorizontalMargin">32dp</dimen>
+    <dimen name="TransactionInputTextSize">24sp</dimen>
+    <dimen name="TransactionNameInputTopMargin">100dp</dimen>
+    <dimen name="TransactionPriceInputTopMargin">16dp</dimen>
+
+    <dimen name="addTransactionButtonMarginTop">48dp</dimen>
+    <dimen name="addTransactionButtonTextSize">18sp</dimen>
+    <dimen name="addTransactionButtonDrawablePadding">8dp</dimen>
+
+    <dimen name="TransactionListItemTextSize">20sp</dimen>
+</resources>

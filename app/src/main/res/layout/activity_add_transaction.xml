@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddTransactionActivity">
+
+    <EditText
+        android:id="@+id/purchase_name_input"
+        style="@style/TransactionInputs"
+        android:layout_marginTop="@dimen/TransactionNameInputTopMargin"
+        android:hint="@string/transactionNameHint"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/purchase_price_input"
+        style="@style/TransactionInputs"
+        android:layout_marginTop="@dimen/TransactionPriceInputTopMargin"
+        android:hint="@string/transactionPriceHint"
+        android:inputType="number"/>
+
+    <Button
+        android:id="@+id/add_purchase_button"
+        android:enabled="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/addTransactionButtonMarginTop"
+        android:background="@null"
+        android:textSize="@dimen/addTransactionButtonTextSize"
+        android:textColor="@color/add_transaction_button_color"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/addTransactionButtonCaption"
+        android:drawableStart="@drawable/ic_check"
+        android:drawablePadding="@dimen/addTransactionButtonDrawablePadding"/>
+
+</LinearLayout>
