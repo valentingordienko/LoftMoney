@@ -3,4 +3,7 @@
     <string name="transactionNameHint">Название</string>
     <string name="transactionPriceHint">Стоимость</string>
     <string name="addTransactionButtonCaption">Добавить</string>
+    <string name="tabCaptionIncome">Доходы</string>
+    <string name="tabCaptionConsumption">Расходы</string>
+    <string name="tabCaptionBalance">Баланс</string>
 </resources>

@@ -22,7 +22,21 @@ import java.util.List;
  */
 public class TransactionListFragment extends Fragment {
 
+    public static final String KEY_NAME = "TYPE";
+    public static final int TYPE_DEFAULT = 0;
+    public static final int TYPE_INCOME = 1;
+    public static final int TYPE_CONSUMPTION = 2;
+
     private TransactionListItemAdapter adapter;
+    private int fragmentType;
+
+    public static TransactionListFragment newInstance(int type) {
+        TransactionListFragment instance = new TransactionListFragment();
+        Bundle arguments = new Bundle();
+        arguments.putInt(KEY_NAME, type);
+        instance.setArguments(arguments);
+        return instance;
+    }
 
     public TransactionListFragment() {
         // Required empty public constructor
@@ -33,6 +47,16 @@ public class TransactionListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         this.adapter = new TransactionListItemAdapter();
+
+        if(this.getArguments() == null) {
+            throw new IllegalStateException("Fragment arguments are NULL");
+        }
+
+        this.fragmentType = this.getArguments().getInt(KEY_NAME, TYPE_DEFAULT);
+
+        if(fragmentType == TYPE_DEFAULT) {
+            throw new IllegalStateException("Fragment type is UNKNOWN");
+        }
     }
 
     @Override
@@ -55,10 +79,12 @@ public class TransactionListFragment extends Fragment {
         transactionItemDivider.setDrawable(context.getDrawable(R.drawable.transactions_list_divider));
         recyclerView.addItemDecoration(transactionItemDivider);
 
-        adapter.setTransactionItems(this.createTemporaryTransactios(15));
+        int transactionListSize = this.fragmentType == 1 ? 12 : this.fragmentType == 2 ? 3 : 0;
+
+        adapter.setTransactionItems(this.createTemporaryTransactions(transactionListSize));
     }
 
-    private List<TransactionListItem> createTemporaryTransactios(int count){
+    private List<TransactionListItem> createTemporaryTransactions(int count){
 
         List<TransactionListItem> items = new ArrayList<>();
 
