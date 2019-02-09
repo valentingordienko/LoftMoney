@@ -3,18 +3,23 @@ package ru.valentin_gordienko.loftmoney;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -22,18 +27,19 @@ import java.util.List;
  */
 public class TransactionListFragment extends Fragment {
 
+    private static final String TAG = "TransactionListFragment";
+    private static final String TOKEN = "$2y$10$MI9aJHOPZNR1WLHMPoRkx.6geJcwuzU/JxArRxeOoK9KXyPs3DzfG";
+
     public static final String KEY_NAME = "TYPE";
-    public static final int TYPE_DEFAULT = 0;
-    public static final int TYPE_INCOME = 1;
-    public static final int TYPE_CONSUMPTION = 2;
 
     private TransactionListItemAdapter adapter;
-    private int fragmentType;
+    private String fragmentType;
+    private Api api;
 
-    public static TransactionListFragment newInstance(int type) {
+    public static TransactionListFragment newInstance(String type) {
         TransactionListFragment instance = new TransactionListFragment();
         Bundle arguments = new Bundle();
-        arguments.putInt(KEY_NAME, type);
+        arguments.putString(KEY_NAME, type);
         instance.setArguments(arguments);
         return instance;
     }
@@ -52,11 +58,10 @@ public class TransactionListFragment extends Fragment {
             throw new IllegalStateException("Fragment arguments are NULL");
         }
 
-        this.fragmentType = this.getArguments().getInt(KEY_NAME, TYPE_DEFAULT);
+        this.fragmentType = this.getArguments().getString(KEY_NAME);
 
-        if(fragmentType == TYPE_DEFAULT) {
-            throw new IllegalStateException("Fragment type is UNKNOWN");
-        }
+        App app = (App) Objects.requireNonNull(this.getActivity()).getApplication();
+        api = app.getApi();
     }
 
     @Override
@@ -79,19 +84,24 @@ public class TransactionListFragment extends Fragment {
         transactionItemDivider.setDrawable(context.getDrawable(R.drawable.transactions_list_divider));
         recyclerView.addItemDecoration(transactionItemDivider);
 
-        int transactionListSize = this.fragmentType == 1 ? 12 : this.fragmentType == 2 ? 3 : 0;
-
-        adapter.setTransactionItems(this.createTemporaryTransactions(transactionListSize));
+        this.getTransactions();
     }
 
-    private List<TransactionListItem> createTemporaryTransactions(int count){
+    private void getTransactions(){
 
-        List<TransactionListItem> items = new ArrayList<>();
+        Call call = this.api.getTransactions(fragmentType, TOKEN);
 
-        for(int i = 1; i <= count ; i++ ) {
-            items.add(new TransactionListItem("Транзакция №" + i, 49 + i + "руб."));
-        }
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                List<TransactionListItem> transactions = (List<TransactionListItem>) response.body();
+                adapter.setTransactionItems(transactions);
+            }
 
-        return  items;
+            @Override
+            public void onFailure(Call call, Throwable error) {
+                Log.e(TAG, "getTransactions: ", error);
+            }
+        });
     }
 }
