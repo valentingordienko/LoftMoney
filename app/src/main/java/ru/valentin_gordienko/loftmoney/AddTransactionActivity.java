@@ -1,12 +1,13 @@
 package ru.valentin_gordienko.loftmoney;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AddTransactionActivity extends AppCompatActivity {
 
