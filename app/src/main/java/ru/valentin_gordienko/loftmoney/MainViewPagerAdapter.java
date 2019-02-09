@@ -26,9 +26,9 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case PAGE_CONSUMPTION:
-                return TransactionListFragment.newInstance(TransactionListFragment.TYPE_CONSUMPTION);
+                return TransactionListFragment.newInstance(TransactionListItem.TYPE_CONSUMPTION);
             case PAGE_INCOME:
-                return TransactionListFragment.newInstance(TransactionListFragment.TYPE_INCOME);
+                return TransactionListFragment.newInstance(TransactionListItem.TYPE_INCOME);
             case PAGE_BALANCE:
                 return new BalanceFragment();
             default:

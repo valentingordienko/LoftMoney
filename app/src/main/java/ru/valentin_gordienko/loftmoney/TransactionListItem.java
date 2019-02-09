@@ -2,19 +2,28 @@ package ru.valentin_gordienko.loftmoney;
 
 public class TransactionListItem {
 
-    private String name;
-    private  String price;
+    public static final String TYPE_INCOME = "income";
+    public static final String TYPE_CONSUMPTION = "expense";
 
-    TransactionListItem(String name, String price){
+    private String type;
+    private String name;
+    private  Double price;
+
+    TransactionListItem(String name, Double price, String type){
         this.name = name;
         this.price = price;
+        this.type = type;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public String getPrice() {
+    public String getType() {
+        return this.type;
+    }
+
+    public Double getPrice() {
         return this.price;
     }
 }

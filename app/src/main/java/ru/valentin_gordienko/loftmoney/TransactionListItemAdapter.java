@@ -17,6 +17,7 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
 
     public void setTransactionItems(List<TransactionListItem> transactionItems) {
         this.transactionItems = transactionItems;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -54,7 +55,7 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
 
         public void bindItem(TransactionListItem item){
             this.transactionName.setText(item.getName());
-            this.transactionPrice.setText(item.getPrice());
+            this.transactionPrice.setText(String.valueOf(item.getPrice()));
         }
     }
 }
