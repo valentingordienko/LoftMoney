@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3574fa</color>
     <color name="colorPrimaryDark">#244EB3</color>
-    <color name="colorAccent">#3574fa</color>
+    <color name="colorAccent">#ffc107</color>
 
     <color name="lightGray">#efefef</color>
     <color name="mediumGray">#666664</color>
@@ -10,6 +10,5 @@
     <color name="white">#ffffff</color>
     <color name="whiteThree">#eaeaea</color>
     <color name="perryWinkle_70">#b38baaef</color>
-    <color name="paleOrange">#ffc107</color>
     <color name="appleGreen">#7ed321</color>
 </resources>
