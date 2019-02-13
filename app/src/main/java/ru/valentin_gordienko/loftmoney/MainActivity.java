@@ -2,6 +2,7 @@ package ru.valentin_gordienko.loftmoney;
 
 import android.os.Bundle;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Toolbar toolbar;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +34,6 @@ public class MainActivity extends AppCompatActivity {
         this.toolbar = this.findViewById(R.id.toolbar);
         this.viewPager = this.findViewById(R.id.view_pager);
         this.tabLayout = this.findViewById(R.id.tab_layout);
+        this.floatingActionButton = this.findViewById(R.id.float_action_button);
     }
 }

@@ -30,7 +30,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
             case PAGE_INCOME:
                 return TransactionListFragment.newInstance(TransactionListItem.TYPE_INCOME);
             case PAGE_BALANCE:
-                return new BalanceFragment();
+                return BalanceFragment.newInstance();
             default:
                 throw new IllegalStateException("Unknown fragment type");
         }

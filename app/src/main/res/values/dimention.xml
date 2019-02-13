@@ -10,4 +10,7 @@
     <dimen name="addTransactionButtonDrawablePadding">8dp</dimen>
 
     <dimen name="TransactionListItemTextSize">20sp</dimen>
+
+    <dimen name="FloatAreaButtonMarginEnd">16dp</dimen>
+    <dimen name="FloatAreaButtonMarginBottom">28dp</dimen>
 </resources>

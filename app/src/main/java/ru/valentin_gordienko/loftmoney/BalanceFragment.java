@@ -19,6 +19,15 @@ public class BalanceFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static BalanceFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        BalanceFragment fragment = new BalanceFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
