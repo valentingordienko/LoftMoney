@@ -20,6 +20,11 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
         notifyDataSetChanged();
     }
 
+    public void addTransactionItem(TransactionListItem item){
+        transactionItems.add(item);
+        notifyItemInserted(transactionItems.size());
+    }
+
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

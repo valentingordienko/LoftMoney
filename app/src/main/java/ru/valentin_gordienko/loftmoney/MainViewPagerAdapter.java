@@ -8,11 +8,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
-    private static final int PAGE_COUNT = 3;
-    private static final int PAGE_CONSUMPTION = 0;
-    private static final int PAGE_INCOME = 1;
-    private static final int PAGE_BALANCE = 2;
+    static final int PAGE_CONSUMPTION = 0;
+    static final int PAGE_INCOME = 1;
+    static final int PAGE_BALANCE = 2;
 
+    private static final int PAGE_COUNT = 3;
     private Context context;
 
     public MainViewPagerAdapter(FragmentManager fragmentManager, Context context) {

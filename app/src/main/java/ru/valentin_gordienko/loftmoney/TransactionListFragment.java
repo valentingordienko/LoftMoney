@@ -1,7 +1,9 @@
 package ru.valentin_gordienko.loftmoney;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import retrofit2.Response;
 public class TransactionListFragment extends Fragment {
 
     private static final String TAG = "TransactionListFragment";
+    private static final int ADD_TRANSACTION_REQUEST_CODE = 1;
     private static final String TOKEN = "$2y$10$MI9aJHOPZNR1WLHMPoRkx.6geJcwuzU/JxArRxeOoK9KXyPs3DzfG";
 
     public static final String KEY_NAME = "TYPE";
@@ -56,7 +59,7 @@ public class TransactionListFragment extends Fragment {
 
         this.adapter = new TransactionListItemAdapter();
 
-        if(this.getArguments() == null) {
+        if (this.getArguments() == null) {
             throw new IllegalStateException("Fragment arguments are NULL");
         }
 
@@ -92,7 +95,7 @@ public class TransactionListFragment extends Fragment {
         recyclerView.setAdapter(this.adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        DividerItemDecoration transactionItemDivider = new DividerItemDecoration( context, DividerItemDecoration.VERTICAL);
+        DividerItemDecoration transactionItemDivider = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
         transactionItemDivider.setDrawable(context.getDrawable(R.drawable.transactions_list_divider));
         recyclerView.addItemDecoration(transactionItemDivider);
 
@@ -117,5 +120,32 @@ public class TransactionListFragment extends Fragment {
                 Log.e(TAG, "getTransactions: ", error);
             }
         });
+    }
+
+    public void onClickFloatActionButton() {
+        Intent intent = new Intent(requireContext(), AddTransactionActivity.class);
+        startActivityForResult(intent, ADD_TRANSACTION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == ADD_TRANSACTION_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            String transactionName = data.getStringExtra(AddTransactionActivity.KEY_NAME);
+            String transactionPrice = data.getStringExtra(AddTransactionActivity.KEY_PRICE);
+
+            Log.d(TAG, "onActivityResult: transaction name = " + transactionName);
+            Log.d(TAG, "onActivityResult: transaction price = " + transactionPrice);
+
+            TransactionListItem transactionListItem = new TransactionListItem(
+                    transactionName, Double.valueOf(transactionPrice), fragmentType
+            );
+
+            adapter.addTransactionItem(transactionListItem);
+
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
     }
 }

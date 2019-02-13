@@ -1,9 +1,12 @@
 package ru.valentin_gordienko.loftmoney;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -11,9 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AddTransactionActivity extends AppCompatActivity {
 
-    private EditText PurchaseNameInput;
-    private EditText PurchasePriceInput;
-    private Button AddPurchaseButton;
+    static final String KEY_NAME = "transaction_name";
+    static final String KEY_PRICE = "transaction_price";
+
+    private EditText transactionNameInput;
+    private EditText transactionPriceInput;
+    private Button addTransactionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +31,9 @@ public class AddTransactionActivity extends AppCompatActivity {
     }
 
     private void findChildViews() {
-        PurchaseNameInput = findViewById(R.id.purchase_name_input);
-        PurchasePriceInput = findViewById(R.id.purchase_price_input);
-        AddPurchaseButton = findViewById(R.id.add_purchase_button);
+        this.transactionNameInput = findViewById(R.id.purchase_name_input);
+        this.transactionPriceInput = findViewById(R.id.purchase_price_input);
+        this.addTransactionButton = findViewById(R.id.add_transaction_button);
     }
 
     private void initEventListeners(){
@@ -44,13 +50,29 @@ public class AddTransactionActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                boolean isEmptyName = TextUtils.isEmpty(PurchaseNameInput.getText());
-                boolean isEmptyPrice = TextUtils.isEmpty(PurchasePriceInput.getText());
-                AddPurchaseButton.setEnabled(!isEmptyName && !isEmptyPrice);
+                boolean isEmptyName = TextUtils.isEmpty(transactionNameInput.getText());
+                boolean isEmptyPrice = TextUtils.isEmpty(transactionPriceInput.getText());
+                addTransactionButton.setEnabled(!isEmptyName && !isEmptyPrice);
             }
         };
 
-        PurchaseNameInput.addTextChangedListener(changeTextListener);
-        PurchasePriceInput.addTextChangedListener(changeTextListener);
+        transactionNameInput.addTextChangedListener(changeTextListener);
+        transactionPriceInput.addTextChangedListener(changeTextListener);
+
+        addTransactionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+
+                String transactionName = transactionNameInput.getText().toString();
+                String transactionPrice = transactionPriceInput.getText().toString();
+
+                intent.putExtra(KEY_NAME, transactionName);
+                intent.putExtra(KEY_PRICE, transactionPrice);
+
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 }
