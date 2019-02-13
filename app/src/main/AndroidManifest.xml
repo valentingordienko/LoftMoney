@@ -14,7 +14,9 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".AddTransactionActivity"/>
+        <activity
+            android:name=".AddTransactionActivity"
+            android:theme="@style/AddTransactionTheme"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/mainActivityLabel">

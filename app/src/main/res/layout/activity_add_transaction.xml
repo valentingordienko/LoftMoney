@@ -6,22 +6,32 @@
     android:orientation="vertical"
     tools:context=".AddTransactionActivity">
 
-    <EditText
-        android:id="@+id/purchase_name_input"
-        style="@style/TransactionInputs"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TransactionTextInputLayout"
         android:layout_marginTop="@dimen/TransactionNameInputTopMargin"
-        android:hint="@string/transactionNameHint"
-        android:inputType="text"/>
+        android:hint="@string/transactionNameHint">
 
-    <EditText
-        android:id="@+id/purchase_price_input"
-        style="@style/TransactionInputs"
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/TransactionInputs"
+            android:id="@+id/purchase_name_input"
+            android:inputType="text"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TransactionTextInputLayout"
         android:layout_marginTop="@dimen/TransactionPriceInputTopMargin"
-        android:hint="@string/transactionPriceHint"
-        android:inputType="number"/>
+        android:hint="@string/transactionPriceHint">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/purchase_price_input"
+            style="@style/TransactionInputs"
+            android:inputType="number"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/add_purchase_button"
+        android:id="@+id/add_transaction_button"
         android:enabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
