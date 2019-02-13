@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +36,7 @@ public class TransactionListFragment extends Fragment {
     private TransactionListItemAdapter adapter;
     private String fragmentType;
     private Api api;
+    private SwipeRefreshLayout preLoader;
 
     public static TransactionListFragment newInstance(String type) {
         TransactionListFragment instance = new TransactionListFragment();
@@ -74,6 +76,16 @@ public class TransactionListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        this.preLoader = view.findViewById(R.id.preLoader);
+        int preLoaderColor = requireContext().getResources().getColor(R.color.colorAccent);
+        preLoader.setColorSchemeColors(preLoaderColor);
+        preLoader.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getTransactions();
+            }
+        });
+
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         Context context = this.requireContext();
 
@@ -87,19 +99,21 @@ public class TransactionListFragment extends Fragment {
         this.getTransactions();
     }
 
-    private void getTransactions(){
+    private void getTransactions() {
 
         Call call = this.api.getTransactions(fragmentType, TOKEN);
 
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
+                preLoader.setRefreshing(false);
                 List<TransactionListItem> transactions = (List<TransactionListItem>) response.body();
                 adapter.setTransactionItems(transactions);
             }
 
             @Override
             public void onFailure(Call call, Throwable error) {
+                preLoader.setRefreshing(false);
                 Log.e(TAG, "getTransactions: ", error);
             }
         });
