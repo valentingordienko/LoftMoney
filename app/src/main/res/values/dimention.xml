@@ -13,4 +13,13 @@
 
     <dimen name="FloatAreaButtonMarginEnd">16dp</dimen>
     <dimen name="FloatAreaButtonMarginBottom">28dp</dimen>
+
+    <dimen name="AuthActivityLabelTextSize">36sp</dimen>
+    <dimen name="AuthActivityLabelTopMargin">18dp</dimen>
+
+    <dimen name="AuthEnterButtonHeight">48dp</dimen>
+    <dimen name="AuthEnterButtonRadius">24dp</dimen>
+    <dimen name="AuthEnterButtonMarginTop">32dp</dimen>
+    <dimen name="AuthEnterButtonHorizontalPadding">32dp</dimen>
+    <dimen name="AuthEnterButtonTextSize">14sp</dimen>
 </resources>
