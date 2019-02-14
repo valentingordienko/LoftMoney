@@ -1,5 +1,7 @@
 package ru.valentin_gordienko.loftmoney;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -46,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, MainActivity.class);
+        context.startActivity(starter);
     }
 
     private void findChildViews(){

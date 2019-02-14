@@ -4,7 +4,9 @@ package ru.valentin_gordienko.loftmoney;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,6 @@ public class TransactionListFragment extends Fragment {
 
     private static final String TAG = "TransactionListFragment";
     private static final int ADD_TRANSACTION_REQUEST_CODE = 1;
-    private static final String TOKEN = "$2y$10$MI9aJHOPZNR1WLHMPoRkx.6geJcwuzU/JxArRxeOoK9KXyPs3DzfG";
 
     public static final String KEY_NAME = "TYPE";
 
@@ -104,7 +105,12 @@ public class TransactionListFragment extends Fragment {
 
     private void getTransactions() {
 
-        Call call = this.api.getTransactions(fragmentType, TOKEN);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        String token = preferences.getString(AuthActivity.AUTH_PROPERTY, null);
+
+        if (token == null) return;
+
+        Call call = this.api.getTransactions(fragmentType, token);
 
         call.enqueue(new Callback() {
             @Override
