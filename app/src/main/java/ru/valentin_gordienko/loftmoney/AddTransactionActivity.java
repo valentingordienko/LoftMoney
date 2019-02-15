@@ -1,8 +1,9 @@
 package ru.valentin_gordienko.loftmoney;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,20 +12,25 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddTransactionActivity extends AppCompatActivity {
 
-    static final String KEY_NAME = "transaction_name";
-    static final String KEY_PRICE = "transaction_price";
+    static final String KEY_TYPE = "transaction_type";
 
     private EditText transactionNameInput;
     private EditText transactionPriceInput;
     private Button addTransactionButton;
+    private Api api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
+
+        this.api = ((App) getApplication()).getApi();
 
         this.findChildViews();
         this.initEventListeners();
@@ -62,15 +68,33 @@ public class AddTransactionActivity extends AppCompatActivity {
         addTransactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-
+                String transactionType = getIntent().getStringExtra(KEY_TYPE);
                 String transactionName = transactionNameInput.getText().toString();
                 String transactionPrice = transactionPriceInput.getText().toString();
 
-                intent.putExtra(KEY_NAME, transactionName);
-                intent.putExtra(KEY_PRICE, transactionPrice);
+                addTransaction(transactionType, transactionName, transactionPrice);
+            }
+        });
+    }
 
-                setResult(Activity.RESULT_OK, intent);
+    private void addTransaction(String type, String name, String price){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String token = preferences.getString(AuthActivity.AUTH_PROPERTY, null);
+
+        AddTransactionRequest request = new AddTransactionRequest(type, name, Double.valueOf(price));
+
+        Call<Object> call = api.addTransaction(request, token);
+
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                setResult(Activity.RESULT_OK);
                 finish();
             }
         });

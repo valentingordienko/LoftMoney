@@ -4,7 +4,9 @@ package ru.valentin_gordienko.loftmoney;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,6 @@ public class TransactionListFragment extends Fragment {
 
     private static final String TAG = "TransactionListFragment";
     private static final int ADD_TRANSACTION_REQUEST_CODE = 1;
-    private static final String TOKEN = "$2y$10$MI9aJHOPZNR1WLHMPoRkx.6geJcwuzU/JxArRxeOoK9KXyPs3DzfG";
 
     public static final String KEY_NAME = "TYPE";
 
@@ -104,18 +105,23 @@ public class TransactionListFragment extends Fragment {
 
     private void getTransactions() {
 
-        Call call = this.api.getTransactions(fragmentType, TOKEN);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        String token = preferences.getString(AuthActivity.AUTH_PROPERTY, null);
 
-        call.enqueue(new Callback() {
+        if (token == null) return;
+
+        Call<List<TransactionListItem>> call = this.api.getTransactions(fragmentType, token);
+
+        call.enqueue(new Callback<List<TransactionListItem>>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<List<TransactionListItem>> call, Response<List<TransactionListItem>> response) {
                 preLoader.setRefreshing(false);
-                List<TransactionListItem> transactions = (List<TransactionListItem>) response.body();
+                List<TransactionListItem> transactions = response.body();
                 adapter.setTransactionItems(transactions);
             }
 
             @Override
-            public void onFailure(Call call, Throwable error) {
+            public void onFailure(Call<List<TransactionListItem>> call, Throwable error) {
                 preLoader.setRefreshing(false);
                 Log.e(TAG, "getTransactions: ", error);
             }
@@ -124,25 +130,14 @@ public class TransactionListFragment extends Fragment {
 
     public void onClickFloatActionButton() {
         Intent intent = new Intent(requireContext(), AddTransactionActivity.class);
+        intent.putExtra(AddTransactionActivity.KEY_TYPE, fragmentType);
         startActivityForResult(intent, ADD_TRANSACTION_REQUEST_CODE);
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == ADD_TRANSACTION_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            String transactionName = data.getStringExtra(AddTransactionActivity.KEY_NAME);
-            String transactionPrice = data.getStringExtra(AddTransactionActivity.KEY_PRICE);
-
-            Log.d(TAG, "onActivityResult: transaction name = " + transactionName);
-            Log.d(TAG, "onActivityResult: transaction price = " + transactionPrice);
-
-            TransactionListItem transactionListItem = new TransactionListItem(
-                    transactionName, Double.valueOf(transactionPrice), fragmentType
-            );
-
-            adapter.addTransactionItem(transactionListItem);
-
+        if (requestCode == ADD_TRANSACTION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            getTransactions();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }

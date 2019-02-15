@@ -1,5 +1,7 @@
 <resources>
     <string name="appName">LoftMoney</string>
+    <string name="applicationLogoDescription">Application logo</string>
+    <string name="AuthActivityEnterButton">Войти</string>
     <string name="mainActivityLabel">Учёт бюджета</string>
     <string name="transactionNameHint">Название</string>
     <string name="transactionPriceHint">Стоимость</string>
