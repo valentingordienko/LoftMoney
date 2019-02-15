@@ -110,18 +110,18 @@ public class TransactionListFragment extends Fragment {
 
         if (token == null) return;
 
-        Call call = this.api.getTransactions(fragmentType, token);
+        Call<List<TransactionListItem>> call = this.api.getTransactions(fragmentType, token);
 
-        call.enqueue(new Callback() {
+        call.enqueue(new Callback<List<TransactionListItem>>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<List<TransactionListItem>> call, Response<List<TransactionListItem>> response) {
                 preLoader.setRefreshing(false);
-                List<TransactionListItem> transactions = (List<TransactionListItem>) response.body();
+                List<TransactionListItem> transactions = response.body();
                 adapter.setTransactionItems(transactions);
             }
 
             @Override
-            public void onFailure(Call call, Throwable error) {
+            public void onFailure(Call<List<TransactionListItem>> call, Throwable error) {
                 preLoader.setRefreshing(false);
                 Log.e(TAG, "getTransactions: ", error);
             }
