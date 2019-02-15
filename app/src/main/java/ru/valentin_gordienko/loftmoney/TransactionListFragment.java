@@ -130,25 +130,14 @@ public class TransactionListFragment extends Fragment {
 
     public void onClickFloatActionButton() {
         Intent intent = new Intent(requireContext(), AddTransactionActivity.class);
+        intent.putExtra(AddTransactionActivity.KEY_TYPE, fragmentType);
         startActivityForResult(intent, ADD_TRANSACTION_REQUEST_CODE);
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == ADD_TRANSACTION_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            String transactionName = data.getStringExtra(AddTransactionActivity.KEY_NAME);
-            String transactionPrice = data.getStringExtra(AddTransactionActivity.KEY_PRICE);
-
-            Log.d(TAG, "onActivityResult: transaction name = " + transactionName);
-            Log.d(TAG, "onActivityResult: transaction price = " + transactionPrice);
-
-            TransactionListItem transactionListItem = new TransactionListItem(
-                    transactionName, Double.valueOf(transactionPrice), fragmentType
-            );
-
-            adapter.addTransactionItem(transactionListItem);
-
+        if (requestCode == ADD_TRANSACTION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            getTransactions();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
