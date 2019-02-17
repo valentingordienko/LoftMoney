@@ -8,7 +8,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -41,6 +45,7 @@ public class TransactionListFragment extends Fragment {
     private String fragmentType;
     private Api api;
     private SwipeRefreshLayout preLoader;
+    private ActionMode actionMode;
 
     public static TransactionListFragment newInstance(String type) {
         TransactionListFragment instance = new TransactionListFragment();
@@ -59,6 +64,7 @@ public class TransactionListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         this.adapter = new TransactionListItemAdapter();
+        this.adapter.setListener(new AdapterListener());
 
         if (this.getArguments() == null) {
             throw new IllegalStateException("Fragment arguments are NULL");
@@ -142,5 +148,59 @@ public class TransactionListFragment extends Fragment {
             super.onActivityResult(requestCode, resultCode, data);
         }
 
+    }
+
+    private class AdapterListener implements TransactionListItemAdapterListener {
+
+        @Override
+        public void onClickItem(TransactionListItem item, int position) {
+            if(actionMode == null){
+                return;
+            }
+
+            toggleSelectedItem(position);
+        }
+
+        @Override
+        public void onLongClickItem(TransactionListItem item, int position) {
+            if (actionMode != null) {
+                return;
+            }
+
+            getActivity().startActionMode(new ActionModeCallback());
+            toggleSelectedItem(position);
+        }
+
+        private void toggleSelectedItem(int position){
+            adapter.toggleSelectedTransaction(position);
+        }
+    }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            actionMode = mode;
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = new MenuInflater(requireContext());
+            inflater.inflate(R.menu.action_mode, menu);
+
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            actionMode = null;
+            adapter.clearSelectedTransactions();
+        }
     }
 }

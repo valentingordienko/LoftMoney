@@ -9,4 +9,5 @@
     <string name="tabCaptionIncome">Доходы</string>
     <string name="tabCaptionConsumption">Расходы</string>
     <string name="tabCaptionBalance">Баланс</string>
+    <string name="action_mode_item__delete">Удалить</string>
 </resources>
