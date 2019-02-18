@@ -10,4 +10,7 @@
     <string name="tabCaptionConsumption">Расходы</string>
     <string name="tabCaptionBalance">Баланс</string>
     <string name="action_mode_item__delete">Удалить</string>
+    <string name="confirmDeleteTransactionText">Вы действительно хотите удалить выбранные элементы?</string>
+    <string name="confirmYesButtonText">Да</string>
+    <string name="confirmNoButtonText">Нет</string>
 </resources>

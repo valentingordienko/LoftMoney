@@ -3,6 +3,7 @@ package ru.valentin_gordienko.loftmoney;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -109,11 +111,14 @@ public class TransactionListFragment extends Fragment {
         this.getTransactions();
     }
 
+    private String getToken(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        return preferences.getString(AuthActivity.AUTH_PROPERTY, null);
+    }
+
     private void getTransactions() {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        String token = preferences.getString(AuthActivity.AUTH_PROPERTY, null);
-
+        String token = getToken();
         if (token == null) return;
 
         Call<List<TransactionListItem>> call = this.api.getTransactions(fragmentType, token);
@@ -130,6 +135,26 @@ public class TransactionListFragment extends Fragment {
             public void onFailure(Call<List<TransactionListItem>> call, Throwable error) {
                 preLoader.setRefreshing(false);
                 Log.e(TAG, "getTransactions: ", error);
+            }
+        });
+    }
+
+    private void removeTransaction(Long id){
+
+        String token = getToken();
+        if (token == null) return;
+
+        Call<Object> call = api.removeTransaction(id, token);
+
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
             }
         });
     }
@@ -194,6 +219,11 @@ public class TransactionListFragment extends Fragment {
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            if(item.getItemId() == R.id.action_bar_item__delete){
+                showConfirmDialog();
+                return true;
+            }
+
             return false;
         }
 
@@ -201,6 +231,36 @@ public class TransactionListFragment extends Fragment {
         public void onDestroyActionMode(ActionMode mode) {
             actionMode = null;
             adapter.clearSelectedTransactions();
+        }
+
+        void removeSelectedTransactions(){
+            List<Integer> selectedPositions = adapter.getSelectedTransactions();
+
+            for (int i = selectedPositions.size() - 1; i >= 0; i--) {
+                TransactionListItem transactionListItem = adapter.removeTransaction(selectedPositions.get(i));
+                removeTransaction(transactionListItem.getId());
+            }
+
+            actionMode.finish();
+        }
+
+        void showConfirmDialog(){
+            AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                    .setMessage(getString(R.string.confirmDeleteTransactionText))
+                    .setPositiveButton(getString(R.string.confirmYesButtonText), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            removeSelectedTransactions();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.confirmNoButtonText), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .create();
+            dialog.show();
         }
     }
 }

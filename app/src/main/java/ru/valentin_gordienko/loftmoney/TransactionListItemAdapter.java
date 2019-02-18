@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,9 +42,21 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
         notifyDataSetChanged();
     }
 
-    public void addTransactionItem(TransactionListItem item){
-        transactionItems.add(item);
-        notifyItemInserted(transactionItems.size());
+    List<Integer> getSelectedTransactions(){
+        List<Integer> selectedIndexes = new ArrayList<>();
+
+        for (int i = 0; i < selectedTransactions.size(); i++){
+            selectedIndexes.add(selectedTransactions.keyAt(i));
+        }
+
+        return selectedIndexes;
+    }
+
+    TransactionListItem removeTransaction(int position){
+        TransactionListItem transactionListItem = this.transactionItems.get(position);
+        this.transactionItems.remove(position);
+        notifyItemRemoved(position);
+        return transactionListItem;
     }
 
     @NonNull

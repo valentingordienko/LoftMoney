@@ -3,6 +3,7 @@ package ru.valentin_gordienko.loftmoney;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private Toolbar toolbar;
     private FloatingActionButton floatingActionButton;
+    private ActionMode actionMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
+
+            if(actionMode != null) {
+                actionMode.finish();
+            }
+
             switch(position){
                 case MainViewPagerAdapter.PAGE_INCOME:
                 case MainViewPagerAdapter.PAGE_CONSUMPTION:
@@ -79,5 +87,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onActionModeStarted(ActionMode mode) {
+        super.onActionModeStarted(mode);
 
+        actionMode = mode;
+        floatingActionButton.hide();
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.darkGreyBlue));
+    }
+
+    @Override
+    public void onActionModeFinished(ActionMode mode) {
+        super.onActionModeFinished(mode);
+
+        actionMode = null;
+        floatingActionButton.show();
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+    }
 }
