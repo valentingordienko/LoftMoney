@@ -30,7 +30,7 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
 
     void toggleSelectedTransaction(int position){
         if(selectedTransactions.get(position, false)){
-            selectedTransactions.put(position, false);
+            selectedTransactions.delete(position);
         } else {
             selectedTransactions.put(position, true);
         }
