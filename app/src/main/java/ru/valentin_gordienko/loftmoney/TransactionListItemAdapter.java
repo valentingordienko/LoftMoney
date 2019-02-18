@@ -42,6 +42,10 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
         notifyDataSetChanged();
     }
 
+    public int getSelectedTransactionsCount(){
+        return selectedTransactions.size();
+    }
+
     List<Integer> getSelectedTransactions(){
         List<Integer> selectedIndexes = new ArrayList<>();
 

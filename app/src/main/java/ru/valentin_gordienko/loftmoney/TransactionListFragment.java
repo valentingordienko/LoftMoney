@@ -175,6 +175,10 @@ public class TransactionListFragment extends Fragment {
 
     }
 
+    private String getActionModeTitle(){
+        return getString(R.string.actionModeTitle) + ' ' + adapter.getSelectedTransactionsCount();
+    }
+
     private class AdapterListener implements TransactionListItemAdapterListener {
 
         @Override
@@ -184,6 +188,7 @@ public class TransactionListFragment extends Fragment {
             }
 
             toggleSelectedItem(position);
+            actionMode.setTitle(getActionModeTitle());
         }
 
         @Override
@@ -194,6 +199,7 @@ public class TransactionListFragment extends Fragment {
 
             getActivity().startActionMode(new ActionModeCallback());
             toggleSelectedItem(position);
+            actionMode.setTitle(getActionModeTitle());
         }
 
         private void toggleSelectedItem(int position){
