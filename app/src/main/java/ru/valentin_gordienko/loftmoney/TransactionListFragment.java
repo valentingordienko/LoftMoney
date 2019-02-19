@@ -3,12 +3,17 @@ package ru.valentin_gordienko.loftmoney;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +22,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +47,7 @@ public class TransactionListFragment extends Fragment {
     private String fragmentType;
     private Api api;
     private SwipeRefreshLayout preLoader;
+    private ActionMode actionMode;
 
     public static TransactionListFragment newInstance(String type) {
         TransactionListFragment instance = new TransactionListFragment();
@@ -59,6 +66,7 @@ public class TransactionListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         this.adapter = new TransactionListItemAdapter();
+        this.adapter.setListener(new AdapterListener());
 
         if (this.getArguments() == null) {
             throw new IllegalStateException("Fragment arguments are NULL");
@@ -103,11 +111,14 @@ public class TransactionListFragment extends Fragment {
         this.getTransactions();
     }
 
+    private String getToken(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        return preferences.getString(AuthActivity.AUTH_PROPERTY, null);
+    }
+
     private void getTransactions() {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        String token = preferences.getString(AuthActivity.AUTH_PROPERTY, null);
-
+        String token = getToken();
         if (token == null) return;
 
         Call<List<TransactionListItem>> call = this.api.getTransactions(fragmentType, token);
@@ -128,6 +139,26 @@ public class TransactionListFragment extends Fragment {
         });
     }
 
+    private void removeTransaction(Long id){
+
+        String token = getToken();
+        if (token == null) return;
+
+        Call<Object> call = api.removeTransaction(id, token);
+
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void onClickFloatActionButton() {
         Intent intent = new Intent(requireContext(), AddTransactionActivity.class);
         intent.putExtra(AddTransactionActivity.KEY_TYPE, fragmentType);
@@ -142,5 +173,100 @@ public class TransactionListFragment extends Fragment {
             super.onActivityResult(requestCode, resultCode, data);
         }
 
+    }
+
+    private String getActionModeTitle(){
+        return getString(R.string.actionModeTitle) + ' ' + adapter.getSelectedTransactionsCount();
+    }
+
+    private class AdapterListener implements TransactionListItemAdapterListener {
+
+        @Override
+        public void onClickItem(TransactionListItem item, int position) {
+            if(actionMode == null){
+                return;
+            }
+
+            toggleSelectedItem(position);
+            actionMode.setTitle(getActionModeTitle());
+        }
+
+        @Override
+        public void onLongClickItem(TransactionListItem item, int position) {
+            if (actionMode != null) {
+                return;
+            }
+
+            getActivity().startActionMode(new ActionModeCallback());
+            toggleSelectedItem(position);
+            actionMode.setTitle(getActionModeTitle());
+        }
+
+        private void toggleSelectedItem(int position){
+            adapter.toggleSelectedTransaction(position);
+        }
+    }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            actionMode = mode;
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = new MenuInflater(requireContext());
+            inflater.inflate(R.menu.action_mode, menu);
+
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            if(item.getItemId() == R.id.action_bar_item__delete){
+                showConfirmDialog();
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            actionMode = null;
+            adapter.clearSelectedTransactions();
+        }
+
+        void removeSelectedTransactions(){
+            List<Integer> selectedPositions = adapter.getSelectedTransactions();
+
+            for (int i = selectedPositions.size() - 1; i >= 0; i--) {
+                TransactionListItem transactionListItem = adapter.removeTransaction(selectedPositions.get(i));
+                removeTransaction(transactionListItem.getId());
+            }
+
+            actionMode.finish();
+        }
+
+        void showConfirmDialog(){
+            AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                    .setMessage(getString(R.string.confirmDeleteTransactionText))
+                    .setPositiveButton(getString(R.string.confirmYesButtonText), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            removeSelectedTransactions();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.confirmNoButtonText), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .create();
+            dialog.show();
+        }
     }
 }
