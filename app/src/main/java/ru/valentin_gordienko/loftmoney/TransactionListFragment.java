@@ -5,9 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -111,14 +109,9 @@ public class TransactionListFragment extends Fragment {
         this.getTransactions();
     }
 
-    private String getToken(){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        return preferences.getString(AuthActivity.AUTH_PROPERTY, null);
-    }
-
     private void getTransactions() {
 
-        String token = getToken();
+        String token = AuthActivity.getToken(this.requireContext());
         if (token == null) return;
 
         Call<List<TransactionListItem>> call = this.api.getTransactions(fragmentType, token);
@@ -141,7 +134,7 @@ public class TransactionListFragment extends Fragment {
 
     private void removeTransaction(Long id){
 
-        String token = getToken();
+        String token = AuthActivity.getToken(this.requireContext());
         if (token == null) return;
 
         Call<Object> call = api.removeTransaction(id, token);

@@ -73,4 +73,10 @@ public class DiagramView extends View {
         );
 
     }
+
+    public void setData(int income, int consumption){
+        this.income = income;
+        this.consumption = consumption;
+        invalidate();
+    }
 }
