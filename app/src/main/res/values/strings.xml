@@ -14,4 +14,7 @@
     <string name="confirmYesButtonText">Да</string>
     <string name="confirmNoButtonText">Нет</string>
     <string name="actionModeTitle">Выделено:</string>
+    <string name="availableBalanceTitle">Доступные финансы</string>
+    <string name="allIncomeTitle">Доход</string>
+    <string name="allConsumptionTitle">Расход</string>
 </resources>
