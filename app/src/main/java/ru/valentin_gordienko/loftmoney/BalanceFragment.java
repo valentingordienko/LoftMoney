@@ -1,6 +1,7 @@
 package ru.valentin_gordienko.loftmoney;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class BalanceFragment extends Fragment {
     private TextView allConsumption;
     private DiagramView diagramView;
     private Api api;
+    private String textPostDecorator;
 
 
     public BalanceFragment() {
@@ -46,6 +48,7 @@ public class BalanceFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.textPostDecorator = getString(R.string.rubleSign);
         App app = (App) Objects.requireNonNull(this.getActivity()).getApplication();
         api = app.getApi();
     }
@@ -78,6 +81,7 @@ public class BalanceFragment extends Fragment {
         Call<BalanceResponse> call = this.api.balance(token);
 
         call.enqueue(new Callback<BalanceResponse>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<BalanceResponse> call, Response<BalanceResponse> response) {
                 BalanceResponse balanceResponse = response.body();
@@ -86,9 +90,9 @@ public class BalanceFragment extends Fragment {
 
                 int balance = totalIncome - totalConsumption;
 
-                availableBalance.setText(String.valueOf(balance));
-                allIncome.setText(String.valueOf(totalIncome));
-                allConsumption.setText(String.valueOf(totalConsumption));
+                availableBalance.setText(String.valueOf(balance) + textPostDecorator);
+                allIncome.setText(String.valueOf(totalIncome) + textPostDecorator);
+                allConsumption.setText(String.valueOf(totalConsumption) + textPostDecorator);
                 diagramView.setData(totalIncome, totalConsumption);
 
             }

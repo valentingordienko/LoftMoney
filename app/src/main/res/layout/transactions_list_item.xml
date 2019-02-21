@@ -25,6 +25,6 @@
         android:layout_weight="0"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="8dp"
-        tools:text="70р"/>
+        tools:text="70"/>
 
 </LinearLayout>

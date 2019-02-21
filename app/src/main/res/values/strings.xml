@@ -17,4 +17,5 @@
     <string name="availableBalanceTitle">Доступные финансы</string>
     <string name="allIncomeTitle">Доход</string>
     <string name="allConsumptionTitle">Расход</string>
+    <string name="rubleSign">₽</string>
 </resources>
