@@ -1,6 +1,7 @@
 package ru.valentin_gordienko.loftmoney;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,6 +91,7 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
 
         private TextView transactionName;
         private TextView transactionPrice;
+        private Context context;
         private String textPostDecorator;
 
         ItemViewHolder(@NonNull View itemView) {
@@ -97,13 +99,19 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
 
             this.transactionName = itemView.findViewById(R.id.transaction_name);
             this.transactionPrice = itemView.findViewById(R.id.transaction_price);
-            this.textPostDecorator = itemView.getResources().getString(R.string.rubleSign);
+            this.context = itemView.getContext();
+            this.textPostDecorator = this.context.getString(R.string.rubleSign);
         }
 
         @SuppressLint("SetTextI18n")
         void bindItem(TransactionListItem item, boolean selected){
+            int textColor = item.getType().equals(TransactionListItem.TYPE_INCOME)
+                    ? context.getResources().getColor(R.color.appleGreen)
+                    : context.getResources().getColor(R.color.darkSkyBlue);
+
             this.transactionName.setText(item.getName());
             this.transactionPrice.setText(String.valueOf(item.getPrice()) + this.textPostDecorator);
+            this.transactionPrice.setTextColor(textColor);
             itemView.setSelected(selected);
         }
 
