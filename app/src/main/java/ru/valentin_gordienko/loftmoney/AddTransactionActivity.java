@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -65,15 +64,12 @@ public class AddTransactionActivity extends AppCompatActivity {
         transactionNameInput.addTextChangedListener(changeTextListener);
         transactionPriceInput.addTextChangedListener(changeTextListener);
 
-        addTransactionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String transactionType = getIntent().getStringExtra(KEY_TYPE);
-                String transactionName = transactionNameInput.getText().toString();
-                String transactionPrice = transactionPriceInput.getText().toString();
+        addTransactionButton.setOnClickListener(v -> {
+            String transactionType = getIntent().getStringExtra(KEY_TYPE);
+            String transactionName = transactionNameInput.getText().toString();
+            String transactionPrice = transactionPriceInput.getText().toString();
 
-                addTransaction(transactionType, transactionName, transactionPrice);
-            }
+            addTransaction(transactionType, transactionName, transactionPrice);
         });
     }
 

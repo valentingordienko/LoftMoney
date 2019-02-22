@@ -3,7 +3,6 @@ package ru.valentin_gordienko.loftmoney;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,12 +88,7 @@ public class TransactionListFragment extends Fragment {
         preLoader = view.findViewById(R.id.preLoader);
         int preLoaderColor = requireContext().getResources().getColor(R.color.colorAccent);
         preLoader.setColorSchemeColors(preLoaderColor);
-        preLoader.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getTransactions();
-            }
-        });
+        preLoader.setOnRefreshListener(this::getTransactions);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         Context context = requireContext();
@@ -246,18 +240,8 @@ public class TransactionListFragment extends Fragment {
         void showConfirmDialog(){
             AlertDialog dialog = new AlertDialog.Builder(requireContext())
                     .setMessage(getString(R.string.confirmDeleteTransactionText))
-                    .setPositiveButton(getString(R.string.confirmYesButtonText), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            removeSelectedTransactions();
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.confirmNoButtonText), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
+                    .setPositiveButton(getString(R.string.confirmYesButtonText), (dialog1, which) -> removeSelectedTransactions())
+                    .setNegativeButton(getString(R.string.confirmNoButtonText), (dialog12, which) -> { })
                     .create();
             dialog.show();
         }

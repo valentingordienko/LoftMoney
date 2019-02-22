@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
-import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -38,16 +37,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(mainViewPagerAdapter);
         viewPager.addOnPageChangeListener(new PageChangeListener());
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        floatingActionButton.setOnClickListener(v -> {
 
-                List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
 
-                for(Fragment fragment : fragments){
-                    if(fragment instanceof TransactionListFragment && fragment.getUserVisibleHint()){
-                        ((TransactionListFragment) fragment).onClickFloatActionButton();
-                    }
+            for(Fragment fragment : fragments){
+                if(fragment instanceof TransactionListFragment && fragment.getUserVisibleHint()){
+                    ((TransactionListFragment) fragment).onClickFloatActionButton();
                 }
             }
         });

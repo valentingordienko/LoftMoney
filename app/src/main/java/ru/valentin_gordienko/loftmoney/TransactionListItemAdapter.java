@@ -116,23 +116,17 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
         }
 
         void setListener(TransactionListItem item, TransactionListItemAdapterListener listener, int position){
-            itemView.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    if(listener != null) {
-                        listener.onClickItem(item, position);
-                    }
+            itemView.setOnClickListener(v -> {
+                if(listener != null) {
+                    listener.onClickItem(item, position);
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener(){
-                @Override
-                public boolean onLongClick(View v) {
-                    if(listener != null) {
-                        listener.onLongClickItem(item, position);
-                    }
-                    return true;
+            itemView.setOnLongClickListener(v -> {
+                if(listener != null) {
+                    listener.onLongClickItem(item, position);
                 }
+                return true;
             });
         }
     }
