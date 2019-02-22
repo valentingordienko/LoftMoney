@@ -48,7 +48,7 @@ public class BalanceFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.textPostDecorator = getString(R.string.rubleSign);
+        textPostDecorator = getString(R.string.rubleSign);
         App app = (App) Objects.requireNonNull(this.getActivity()).getApplication();
         api = app.getApi();
     }

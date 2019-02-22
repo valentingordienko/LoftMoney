@@ -63,16 +63,16 @@ public class TransactionListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.adapter = new TransactionListItemAdapter();
-        this.adapter.setListener(new AdapterListener());
+        adapter = new TransactionListItemAdapter();
+        adapter.setListener(new AdapterListener());
 
-        if (this.getArguments() == null) {
+        if (getArguments() == null) {
             throw new IllegalStateException("Fragment arguments are NULL");
         }
 
-        this.fragmentType = this.getArguments().getString(KEY_NAME);
+        fragmentType = getArguments().getString(KEY_NAME);
 
-        App app = (App) Objects.requireNonNull(this.getActivity()).getApplication();
+        App app = (App) Objects.requireNonNull(getActivity()).getApplication();
         api = app.getApi();
     }
 
@@ -86,7 +86,7 @@ public class TransactionListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.preLoader = view.findViewById(R.id.preLoader);
+        preLoader = view.findViewById(R.id.preLoader);
         int preLoaderColor = requireContext().getResources().getColor(R.color.colorAccent);
         preLoader.setColorSchemeColors(preLoaderColor);
         preLoader.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -97,9 +97,9 @@ public class TransactionListFragment extends Fragment {
         });
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        Context context = this.requireContext();
+        Context context = requireContext();
 
-        recyclerView.setAdapter(this.adapter);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         DividerItemDecoration transactionItemDivider = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
@@ -111,10 +111,10 @@ public class TransactionListFragment extends Fragment {
 
     private void getTransactions() {
 
-        String token = AuthActivity.getToken(this.requireContext());
+        String token = AuthActivity.getToken(requireContext());
         if (token == null) return;
 
-        Call<List<TransactionListItem>> call = this.api.getTransactions(fragmentType, token);
+        Call<List<TransactionListItem>> call = api.getTransactions(fragmentType, token);
 
         call.enqueue(new Callback<List<TransactionListItem>>() {
             @Override
@@ -134,7 +134,7 @@ public class TransactionListFragment extends Fragment {
 
     private void removeTransaction(Long id){
 
-        String token = AuthActivity.getToken(this.requireContext());
+        String token = AuthActivity.getToken(requireContext());
         if (token == null) return;
 
         Call<Object> call = api.removeTransaction(id, token);

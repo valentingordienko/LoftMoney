@@ -6,9 +6,6 @@ public class AddTransactionRequest {
     private String name;
     private Double price;
 
-    public AddTransactionRequest() {
-    }
-
     public AddTransactionRequest(String type, String name, Double price) {
         this.type = type;
         this.name = name;

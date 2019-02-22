@@ -11,10 +11,6 @@ public class AuthResponse {
 
     private int id;
 
-    public AuthResponse() {
-
-    }
-
     public AuthResponse(String status, String token, int id) {
         this.status = status;
         this.token = token;

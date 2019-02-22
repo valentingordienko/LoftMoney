@@ -59,8 +59,8 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
     }
 
     TransactionListItem removeTransaction(int position){
-        TransactionListItem transactionListItem = this.transactionItems.get(position);
-        this.transactionItems.remove(position);
+        TransactionListItem transactionListItem = transactionItems.get(position);
+        transactionItems.remove(position);
         notifyItemRemoved(position);
         return transactionListItem;
     }
@@ -84,7 +84,7 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
 
     @Override
     public int getItemCount() {
-        return this.transactionItems.size();
+        return transactionItems.size();
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -97,10 +97,10 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.transactionName = itemView.findViewById(R.id.transaction_name);
-            this.transactionPrice = itemView.findViewById(R.id.transaction_price);
-            this.context = itemView.getContext();
-            this.textPostDecorator = this.context.getString(R.string.rubleSign);
+            transactionName = itemView.findViewById(R.id.transaction_name);
+            transactionPrice = itemView.findViewById(R.id.transaction_price);
+            context = itemView.getContext();
+            textPostDecorator = this.context.getString(R.string.rubleSign);
         }
 
         @SuppressLint("SetTextI18n")
@@ -109,9 +109,9 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
                     ? context.getResources().getColor(R.color.appleGreen)
                     : context.getResources().getColor(R.color.darkSkyBlue);
 
-            this.transactionName.setText(item.getName());
-            this.transactionPrice.setText(String.valueOf(item.getPrice()) + this.textPostDecorator);
-            this.transactionPrice.setTextColor(textColor);
+            transactionName.setText(item.getName());
+            transactionPrice.setText(String.valueOf(item.getPrice()) + this.textPostDecorator);
+            transactionPrice.setTextColor(textColor);
             itemView.setSelected(selected);
         }
 

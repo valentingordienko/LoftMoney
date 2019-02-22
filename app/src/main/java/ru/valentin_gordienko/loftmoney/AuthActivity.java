@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.google.android.material.button.MaterialButton;
-
 import java.util.UUID;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +16,6 @@ public class AuthActivity extends AppCompatActivity {
 
     public static final String AUTH_PROPERTY = "auth_token";
 
-    private MaterialButton enterButton;
     private Api api;
 
     @Override
@@ -31,10 +28,9 @@ public class AuthActivity extends AppCompatActivity {
             finish();
         }
 
-        this.enterButton = findViewById(R.id.auth_enter_button);
-        this.api = ((App) getApplication()).getApi();
+        api = ((App) getApplication()).getApi();
 
-        enterButton.setOnClickListener(v -> {
+        findViewById(R.id.auth_enter_button).setOnClickListener(v -> {
             auth();
         });
     }

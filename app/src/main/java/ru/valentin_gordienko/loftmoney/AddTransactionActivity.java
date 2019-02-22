@@ -30,16 +30,16 @@ public class AddTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
 
-        this.api = ((App) getApplication()).getApi();
+        api = ((App) getApplication()).getApi();
 
-        this.findChildViews();
-        this.initEventListeners();
+        findChildViews();
+        initEventListeners();
     }
 
     private void findChildViews() {
-        this.transactionNameInput = findViewById(R.id.purchase_name_input);
-        this.transactionPriceInput = findViewById(R.id.purchase_price_input);
-        this.addTransactionButton = findViewById(R.id.add_transaction_button);
+        transactionNameInput = findViewById(R.id.purchase_name_input);
+        transactionPriceInput = findViewById(R.id.purchase_price_input);
+        addTransactionButton = findViewById(R.id.add_transaction_button);
     }
 
     private void initEventListeners(){
