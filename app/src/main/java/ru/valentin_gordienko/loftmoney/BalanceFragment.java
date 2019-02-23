@@ -2,6 +2,7 @@ package ru.valentin_gordienko.loftmoney;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class BalanceFragment extends Fragment {
     private DiagramView diagramView;
     private Api api;
     private String textPostDecorator;
+    private Context context;
 
 
     public BalanceFragment() {
@@ -48,6 +50,7 @@ public class BalanceFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = requireContext();
         textPostDecorator = getString(R.string.rubleSign);
         App app = (App) Objects.requireNonNull(this.getActivity()).getApplication();
         api = app.getApi();
@@ -65,6 +68,7 @@ public class BalanceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         findChildViews(view);
+        getBalance();
     }
 
     private void findChildViews(View view){
@@ -75,6 +79,11 @@ public class BalanceFragment extends Fragment {
     }
 
     private void getBalance(){
+
+        if(context == null){
+            return;
+        }
+
         String token = AuthActivity.getToken(this.requireContext());
         if (token == null) return;
 
