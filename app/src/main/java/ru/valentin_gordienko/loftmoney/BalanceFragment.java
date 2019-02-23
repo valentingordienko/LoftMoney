@@ -2,7 +2,6 @@ package ru.valentin_gordienko.loftmoney;
 
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +27,7 @@ public class BalanceFragment extends Fragment {
     private TextView allIncome;
     private TextView allConsumption;
     private DiagramView diagramView;
-    private Api api;
     private String textPostDecorator;
-    private Context context;
 
 
     public BalanceFragment() {
@@ -50,16 +47,11 @@ public class BalanceFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = requireContext();
         textPostDecorator = getString(R.string.rubleSign);
-        App app = (App) Objects.requireNonNull(this.getActivity()).getApplication();
-        api = app.getApi();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_balance, container, false);
     }
 
@@ -71,23 +63,20 @@ public class BalanceFragment extends Fragment {
         getBalance();
     }
 
-    private void findChildViews(View view){
+    private void findChildViews(View view) {
         availableBalance = view.findViewById(R.id.available_balance);
         allIncome = view.findViewById(R.id.all_income);
         allConsumption = view.findViewById(R.id.all_consumption);
         diagramView = view.findViewById(R.id.balance_diagram);
     }
 
-    private void getBalance(){
+    private void getBalance() {
 
-        if(context == null){
-            return;
-        }
+        App app = (App) Objects.requireNonNull(this.getActivity()).getApplication();
 
-        String token = AuthActivity.getToken(this.requireContext());
-        if (token == null) return;
+        if (app == null) return;
 
-        Call<BalanceResponse> call = this.api.balance(token);
+        Call<BalanceResponse> call = app.getApi().balance(app.getToken());
 
         call.enqueue(new Callback<BalanceResponse>() {
             @SuppressLint("SetTextI18n")
@@ -108,7 +97,6 @@ public class BalanceFragment extends Fragment {
 
             @Override
             public void onFailure(Call<BalanceResponse> call, Throwable error) {
-
             }
         });
     }
@@ -117,8 +105,7 @@ public class BalanceFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if(isVisibleToUser){
-            getBalance();
-        }
+        //Update balance by switch from  income fragment
+        if(isVisibleToUser && isVisible()) getBalance();
     }
 }
