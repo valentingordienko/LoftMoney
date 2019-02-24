@@ -13,6 +13,7 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,8 +28,8 @@ public class BalanceFragment extends Fragment {
     private TextView allIncome;
     private TextView allConsumption;
     private DiagramView diagramView;
+    private SwipeRefreshLayout preLoader;
     private String textPostDecorator;
-
 
     public BalanceFragment() {
         // Required empty public constructor
@@ -60,6 +61,7 @@ public class BalanceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         findChildViews(view);
+        settingPreLoader();
         getBalance();
     }
 
@@ -68,6 +70,13 @@ public class BalanceFragment extends Fragment {
         allIncome = view.findViewById(R.id.all_income);
         allConsumption = view.findViewById(R.id.all_consumption);
         diagramView = view.findViewById(R.id.balance_diagram);
+        preLoader = view.findViewById(R.id.preLoader);
+    }
+
+    private void settingPreLoader(){
+        int preLoaderColor = requireContext().getResources().getColor(R.color.colorAccent);
+        preLoader.setColorSchemeColors(preLoaderColor);
+        preLoader.setOnRefreshListener(this::getBalance);
     }
 
     private void getBalance() {
@@ -82,6 +91,7 @@ public class BalanceFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<BalanceResponse> call, Response<BalanceResponse> response) {
+                preLoader.setRefreshing(false);
                 BalanceResponse balanceResponse = response.body();
                 int totalIncome = balanceResponse.getTotalIncome();
                 int totalConsumption = balanceResponse.getTotalConsumption();
@@ -97,6 +107,7 @@ public class BalanceFragment extends Fragment {
 
             @Override
             public void onFailure(Call<BalanceResponse> call, Throwable error) {
+                preLoader.setRefreshing(false);
             }
         });
     }

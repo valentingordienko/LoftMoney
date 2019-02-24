@@ -1,137 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/preLoader"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="wrap_content"
+    tools:context=".BalanceFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        tools:context=".BalanceFragment">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/AvailableBalanceHorizontalPadding"
-            android:paddingTop="@dimen/AvailableBalanceVerticalPadding"
-            android:paddingEnd="@dimen/AvailableBalanceHorizontalPadding"
-            android:paddingBottom="@dimen/AvailableBalanceVerticalPadding">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:text="@string/availableBalanceTitle"
-                android:textColor="@color/mediumGray"
-                android:textSize="@dimen/AvailableBalanceTitleTextSize" />
-
-            <TextView
-                android:id="@+id/available_balance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@color/paleOrange"
-                android:textSize="@dimen/AvailableBalanceValueTextSize"
-                tools:text="64000" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/DividerWidth"
-            android:background="@color/lightGray" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@color/white"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/TypeBalanceHorizontalPadding"
-                android:paddingTop="@dimen/TypeBalanceVerticalPadding"
-                android:paddingEnd="@dimen/TypeBalanceHorizontalPadding"
-                android:paddingBottom="@dimen/TypeBalanceVerticalPadding">
+                android:paddingStart="@dimen/AvailableBalanceHorizontalPadding"
+                android:paddingTop="@dimen/AvailableBalanceVerticalPadding"
+                android:paddingEnd="@dimen/AvailableBalanceHorizontalPadding"
+                android:paddingBottom="@dimen/AvailableBalanceVerticalPadding">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="@string/allConsumptionTitle"
+                    android:text="@string/availableBalanceTitle"
                     android:textColor="@color/mediumGray"
-                    android:textSize="@dimen/TypeBalanceTitleTextSize" />
+                    android:textSize="@dimen/AvailableBalanceTitleTextSize" />
 
                 <TextView
-                    android:id="@+id/all_consumption"
+                    android:id="@+id/available_balance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/TypeBalanceValueTextSize"
-                    tools:text="5400" />
+                    android:textColor="@color/paleOrange"
+                    android:textSize="@dimen/AvailableBalanceValueTextSize"
+                    tools:text="64000" />
 
             </LinearLayout>
 
             <View
-                android:layout_width="@dimen/DividerWidth"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DividerWidth"
                 android:background="@color/lightGray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/TypeBalanceHorizontalPadding"
-                android:paddingTop="@dimen/TypeBalanceVerticalPadding"
-                android:paddingEnd="@dimen/TypeBalanceHorizontalPadding"
-                android:paddingBottom="@dimen/TypeBalanceVerticalPadding">
+                android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@string/allIncomeTitle"
-                    android:textColor="@color/mediumGray"
-                    android:textSize="@dimen/TypeBalanceTitleTextSize" />
+                    android:layout_weight="50"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/TypeBalanceHorizontalPadding"
+                    android:paddingTop="@dimen/TypeBalanceVerticalPadding"
+                    android:paddingEnd="@dimen/TypeBalanceHorizontalPadding"
+                    android:paddingBottom="@dimen/TypeBalanceVerticalPadding">
 
-                <TextView
-                    android:id="@+id/all_income"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@string/allConsumptionTitle"
+                        android:textColor="@color/mediumGray"
+                        android:textSize="@dimen/TypeBalanceTitleTextSize" />
+
+                    <TextView
+                        android:id="@+id/all_consumption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/darkSkyBlue"
+                        android:textSize="@dimen/TypeBalanceValueTextSize"
+                        tools:text="5400" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/DividerWidth"
+                    android:layout_height="match_parent"
+                    android:background="@color/lightGray" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/appleGreen"
-                    android:textSize="@dimen/TypeBalanceValueTextSize"
-                    tools:text="74000" />
+                    android:layout_weight="50"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/TypeBalanceHorizontalPadding"
+                    android:paddingTop="@dimen/TypeBalanceVerticalPadding"
+                    android:paddingEnd="@dimen/TypeBalanceHorizontalPadding"
+                    android:paddingBottom="@dimen/TypeBalanceVerticalPadding">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@string/allIncomeTitle"
+                        android:textColor="@color/mediumGray"
+                        android:textSize="@dimen/TypeBalanceTitleTextSize" />
+
+                    <TextView
+                        android:id="@+id/all_income"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/appleGreen"
+                        android:textSize="@dimen/TypeBalanceValueTextSize"
+                        tools:text="74000" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DividerWidth"
+                android:background="@color/lightGray" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/DiagramFramePadding">
+
+                <ru.valentin_gordienko.loftmoney.DiagramView
+                    android:id="@+id/balance_diagram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/DividerWidth"
-            android:background="@color/lightGray" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/DiagramFramePadding">
-
-            <ru.valentin_gordienko.loftmoney.DiagramView
-                android:id="@+id/balance_diagram"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
-
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
