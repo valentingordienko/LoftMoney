@@ -44,7 +44,12 @@ public class TransactionListFragment extends Fragment {
     private String fragmentType;
     private Api api;
     private SwipeRefreshLayout preLoader;
+    private RecyclerView recyclerView;
     private ActionMode actionMode;
+
+    public TransactionListFragment() {
+        // Required empty public constructor
+    }
 
     public static TransactionListFragment newInstance(String type) {
         TransactionListFragment instance = new TransactionListFragment();
@@ -52,10 +57,6 @@ public class TransactionListFragment extends Fragment {
         arguments.putString(KEY_NAME, type);
         instance.setArguments(arguments);
         return instance;
-    }
-
-    public TransactionListFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -77,7 +78,6 @@ public class TransactionListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_transaction_list, container, false);
     }
 
@@ -85,22 +85,32 @@ public class TransactionListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        findChildViews(view);
+        settingPreLoader();
+        settingRecyclerView();
+
+        this.getTransactions();
+    }
+
+    private void findChildViews(View view) {
         preLoader = view.findViewById(R.id.preLoader);
+        recyclerView = view.findViewById(R.id.recycler_view);
+    }
+
+    private void settingPreLoader(){
         int preLoaderColor = requireContext().getResources().getColor(R.color.colorAccent);
         preLoader.setColorSchemeColors(preLoaderColor);
         preLoader.setOnRefreshListener(this::getTransactions);
+    }
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+    private void settingRecyclerView(){
         Context context = requireContext();
-
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         DividerItemDecoration transactionItemDivider = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
         transactionItemDivider.setDrawable(context.getDrawable(R.drawable.transactions_list_divider));
         recyclerView.addItemDecoration(transactionItemDivider);
-
-        this.getTransactions();
     }
 
     private void getTransactions() {
