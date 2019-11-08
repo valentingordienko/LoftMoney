@@ -22,4 +22,18 @@
     <dimen name="AuthEnterButtonMarginTop">32dp</dimen>
     <dimen name="AuthEnterButtonHorizontalPadding">32dp</dimen>
     <dimen name="AuthEnterButtonTextSize">14sp</dimen>
+
+    <dimen name="DividerWidth">1dp</dimen>
+
+    <dimen name="AvailableBalanceHorizontalPadding">16dp</dimen>
+    <dimen name="AvailableBalanceVerticalPadding">32dp</dimen>
+    <dimen name="AvailableBalanceTitleTextSize">14sp</dimen>
+    <dimen name="AvailableBalanceValueTextSize">48sp</dimen>
+
+    <dimen name="TypeBalanceHorizontalPadding">16dp</dimen>
+    <dimen name="TypeBalanceVerticalPadding">26dp</dimen>
+    <dimen name="TypeBalanceTitleTextSize">12sp</dimen>
+    <dimen name="TypeBalanceValueTextSize">24sp</dimen>
+
+    <dimen name="DiagramFramePadding">32dp</dimen>
 </resources>

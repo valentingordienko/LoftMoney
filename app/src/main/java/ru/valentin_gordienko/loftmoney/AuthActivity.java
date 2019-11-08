@@ -1,10 +1,9 @@
 package ru.valentin_gordienko.loftmoney;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
-import com.google.android.material.button.MaterialButton;
 
 import java.util.UUID;
 
@@ -15,10 +14,8 @@ import retrofit2.Response;
 
 public class AuthActivity extends AppCompatActivity {
 
-    private static final String TAG = "AuthActivity";
     public static final String AUTH_PROPERTY = "auth_token";
 
-    private MaterialButton enterButton;
     private Api api;
 
     @Override
@@ -26,15 +23,14 @@ public class AuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
-        if(getToken() != null){
+        if(getToken(this) != null){
             MainActivity.start(this);
             finish();
         }
 
-        this.enterButton = findViewById(R.id.auth_enter_button);
-        this.api = ((App) getApplication()).getApi();
+        api = ((App) getApplication()).getApi();
 
-        enterButton.setOnClickListener(v -> {
+        findViewById(R.id.auth_enter_button).setOnClickListener(v -> {
             auth();
         });
     }
@@ -65,9 +61,8 @@ public class AuthActivity extends AppCompatActivity {
         preferences.edit().putString(AUTH_PROPERTY, token).apply();
     }
 
-    private String getToken() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
+    public static String getToken(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString(AUTH_PROPERTY, null);
     }
 }

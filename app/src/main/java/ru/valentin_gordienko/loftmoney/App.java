@@ -1,6 +1,8 @@
 package ru.valentin_gordienko.loftmoney;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,6 +11,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static ru.valentin_gordienko.loftmoney.AuthActivity.AUTH_PROPERTY;
 
 public class App extends Application {
 
@@ -42,5 +46,10 @@ public class App extends Application {
 
     public Api getApi() {
         return api;
+    }
+
+    public String getToken() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString(AUTH_PROPERTY, null);
     }
 }

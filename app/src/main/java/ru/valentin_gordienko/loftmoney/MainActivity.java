@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
-import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -29,25 +28,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.findChildViews();
+        findChildViews();
 
         setSupportActionBar(toolbar);
 
         MainViewPagerAdapter mainViewPagerAdapter = new MainViewPagerAdapter(this.getSupportFragmentManager(), this);
-        this.tabLayout.setupWithViewPager(this.viewPager);
-        this.viewPager.setAdapter(mainViewPagerAdapter);
-        this.viewPager.addOnPageChangeListener(new PageChangeListener());
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setAdapter(mainViewPagerAdapter);
+        viewPager.addOnPageChangeListener(new PageChangeListener());
 
-        this.floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        floatingActionButton.setOnClickListener(v -> {
 
-                List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
 
-                for(Fragment fragment : fragments){
-                    if(fragment instanceof TransactionListFragment && fragment.getUserVisibleHint()){
-                        ((TransactionListFragment) fragment).onClickFloatActionButton();
-                    }
+            for(Fragment fragment : fragments){
+                if(fragment instanceof TransactionListFragment && fragment.getUserVisibleHint()){
+                    ((TransactionListFragment) fragment).onClickFloatActionButton();
                 }
             }
         });
@@ -58,11 +54,10 @@ public class MainActivity extends AppCompatActivity {
         context.startActivity(starter);
     }
 
-    private void findChildViews(){
-        this.toolbar = this.findViewById(R.id.toolbar);
-        this.viewPager = this.findViewById(R.id.view_pager);
-        this.tabLayout = this.findViewById(R.id.tab_layout);
-        this.floatingActionButton = this.findViewById(R.id.float_action_button);
+    private void findChildViews(){  toolbar = this.findViewById(R.id.toolbar);
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
+        floatingActionButton = findViewById(R.id.float_action_button);
     }
 
     private class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {

@@ -1,5 +1,7 @@
 package ru.valentin_gordienko.loftmoney;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +44,7 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
         notifyDataSetChanged();
     }
 
-    public int getSelectedTransactionsCount(){
+    int getSelectedTransactionsCount(){
         return selectedTransactions.size();
     }
 
@@ -57,8 +59,8 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
     }
 
     TransactionListItem removeTransaction(int position){
-        TransactionListItem transactionListItem = this.transactionItems.get(position);
-        this.transactionItems.remove(position);
+        TransactionListItem transactionListItem = transactionItems.get(position);
+        transactionItems.remove(position);
         notifyItemRemoved(position);
         return transactionListItem;
     }
@@ -82,45 +84,49 @@ public class TransactionListItemAdapter extends RecyclerView.Adapter<Transaction
 
     @Override
     public int getItemCount() {
-        return this.transactionItems.size();
+        return transactionItems.size();
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView transactionName;
         private TextView transactionPrice;
+        private Context context;
+        private String textPostDecorator;
 
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.transactionName = itemView.findViewById(R.id.transaction_name);
-            this.transactionPrice = itemView.findViewById(R.id.transaction_price);
+            transactionName = itemView.findViewById(R.id.transaction_name);
+            transactionPrice = itemView.findViewById(R.id.transaction_price);
+            context = itemView.getContext();
+            textPostDecorator = this.context.getString(R.string.rubleSign);
         }
 
-        public void bindItem(TransactionListItem item, boolean selected){
-            this.transactionName.setText(item.getName());
-            this.transactionPrice.setText(String.valueOf(item.getPrice()));
+        @SuppressLint("SetTextI18n")
+        void bindItem(TransactionListItem item, boolean selected){
+            int textColor = item.getType().equals(TransactionListItem.TYPE_INCOME)
+                    ? context.getResources().getColor(R.color.appleGreen)
+                    : context.getResources().getColor(R.color.darkSkyBlue);
+
+            transactionName.setText(item.getName());
+            transactionPrice.setText(String.valueOf(item.getPrice()) + this.textPostDecorator);
+            transactionPrice.setTextColor(textColor);
             itemView.setSelected(selected);
         }
 
         void setListener(TransactionListItem item, TransactionListItemAdapterListener listener, int position){
-            itemView.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    if(listener != null) {
-                        listener.onClickItem(item, position);
-                    }
+            itemView.setOnClickListener(v -> {
+                if(listener != null) {
+                    listener.onClickItem(item, position);
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener(){
-                @Override
-                public boolean onLongClick(View v) {
-                    if(listener != null) {
-                        listener.onLongClickItem(item, position);
-                    }
-                    return true;
+            itemView.setOnLongClickListener(v -> {
+                if(listener != null) {
+                    listener.onLongClickItem(item, position);
                 }
+                return true;
             });
         }
     }

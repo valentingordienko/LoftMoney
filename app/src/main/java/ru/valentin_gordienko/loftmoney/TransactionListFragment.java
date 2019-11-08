@@ -3,11 +3,8 @@ package ru.valentin_gordienko.loftmoney;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -47,7 +44,12 @@ public class TransactionListFragment extends Fragment {
     private String fragmentType;
     private Api api;
     private SwipeRefreshLayout preLoader;
+    private RecyclerView recyclerView;
     private ActionMode actionMode;
+
+    public TransactionListFragment() {
+        // Required empty public constructor
+    }
 
     public static TransactionListFragment newInstance(String type) {
         TransactionListFragment instance = new TransactionListFragment();
@@ -57,30 +59,25 @@ public class TransactionListFragment extends Fragment {
         return instance;
     }
 
-    public TransactionListFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.adapter = new TransactionListItemAdapter();
-        this.adapter.setListener(new AdapterListener());
+        adapter = new TransactionListItemAdapter();
+        adapter.setListener(new AdapterListener());
 
-        if (this.getArguments() == null) {
+        if (getArguments() == null) {
             throw new IllegalStateException("Fragment arguments are NULL");
         }
 
-        this.fragmentType = this.getArguments().getString(KEY_NAME);
+        fragmentType = getArguments().getString(KEY_NAME);
 
-        App app = (App) Objects.requireNonNull(this.getActivity()).getApplication();
+        App app = (App) Objects.requireNonNull(getActivity()).getApplication();
         api = app.getApi();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_transaction_list, container, false);
     }
 
@@ -88,40 +85,40 @@ public class TransactionListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.preLoader = view.findViewById(R.id.preLoader);
+        findChildViews(view);
+        settingPreLoader();
+        settingRecyclerView();
+
+        this.getTransactions();
+    }
+
+    private void findChildViews(View view) {
+        preLoader = view.findViewById(R.id.preLoader);
+        recyclerView = view.findViewById(R.id.recycler_view);
+    }
+
+    private void settingPreLoader(){
         int preLoaderColor = requireContext().getResources().getColor(R.color.colorAccent);
         preLoader.setColorSchemeColors(preLoaderColor);
-        preLoader.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getTransactions();
-            }
-        });
+        preLoader.setOnRefreshListener(this::getTransactions);
+    }
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        Context context = this.requireContext();
-
-        recyclerView.setAdapter(this.adapter);
+    private void settingRecyclerView(){
+        Context context = requireContext();
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         DividerItemDecoration transactionItemDivider = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
         transactionItemDivider.setDrawable(context.getDrawable(R.drawable.transactions_list_divider));
         recyclerView.addItemDecoration(transactionItemDivider);
-
-        this.getTransactions();
-    }
-
-    private String getToken(){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        return preferences.getString(AuthActivity.AUTH_PROPERTY, null);
     }
 
     private void getTransactions() {
 
-        String token = getToken();
+        String token = AuthActivity.getToken(requireContext());
         if (token == null) return;
 
-        Call<List<TransactionListItem>> call = this.api.getTransactions(fragmentType, token);
+        Call<List<TransactionListItem>> call = api.getTransactions(fragmentType, token);
 
         call.enqueue(new Callback<List<TransactionListItem>>() {
             @Override
@@ -141,7 +138,7 @@ public class TransactionListFragment extends Fragment {
 
     private void removeTransaction(Long id){
 
-        String token = getToken();
+        String token = AuthActivity.getToken(requireContext());
         if (token == null) return;
 
         Call<Object> call = api.removeTransaction(id, token);
@@ -253,18 +250,8 @@ public class TransactionListFragment extends Fragment {
         void showConfirmDialog(){
             AlertDialog dialog = new AlertDialog.Builder(requireContext())
                     .setMessage(getString(R.string.confirmDeleteTransactionText))
-                    .setPositiveButton(getString(R.string.confirmYesButtonText), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            removeSelectedTransactions();
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.confirmNoButtonText), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
+                    .setPositiveButton(getString(R.string.confirmYesButtonText), (dialog1, which) -> removeSelectedTransactions())
+                    .setNegativeButton(getString(R.string.confirmNoButtonText), (dialog12, which) -> { })
                     .create();
             dialog.show();
         }
